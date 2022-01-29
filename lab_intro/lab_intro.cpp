@@ -61,7 +61,18 @@ PNG grayscale(PNG image) {
  * @return The image with a spotlight.
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
-
+  for(unsigned i=0;i<image.height();i++){
+    for(unsigned j=0;j<image.width();j++){
+        HSLAPixel & pixel= image.getPixel(j,i);
+        // pixel.l=(sqrt(pow((centerX-j),2)+pow((centerY-i),2)))*0.005;
+        if(sqrt((centerX-j)*(centerX-j)+(centerY-i)*(centerY-i))<=160){
+          pixel.l*=1-(sqrt((centerX-j)*(centerX-j)+(centerY-i)*(centerY-i))*0.005);
+        }
+        else{
+          pixel.l*=0.2;
+        }
+    }
+  }
   return image;
   
 }
@@ -78,13 +89,23 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
-
+  for(unsigned i=0; i<image.width();i++){
+    for(unsigned j=0;j<image.height();j++){
+      HSLAPixel & pixel= image.getPixel(i,j);
+      if(114<=pixel.h && pixel.h<= 293){
+        pixel.h=216;
+      }
+      else{
+        pixel.h=11;
+      }
+    }
+  }
   return image;
 }
  
 
 /**
-* Returns an immge that has been watermarked by another image.
+* Returns an image that has been watermarked by another image.
 *
 * The luminance of every pixel of the second image is checked, if that
 * pixel's luminance is 1 (100%), then the pixel at the same location on
@@ -96,6 +117,14 @@ PNG illinify(PNG image) {
 * @return The watermarked image.
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
-
+  for(unsigned i=0; i<firstImage.height();i++){
+    for(unsigned j=0;j<firstImage.width();j++){
+      HSLAPixel & pixel1 = firstImage.getPixel(j,i);
+      HSLAPixel & pixel2 = secondImage.getPixel(j,i);
+        if(pixel2.l==1 && pixel1.l + 0.2 < 1){
+          pixel1.l+=0.2;
+        }
+    }
+  }
   return firstImage;
 }
