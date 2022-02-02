@@ -7,7 +7,7 @@
 #include "cs225/PNG.h"
 
 namespace cs225{
-    class Image : protected PNG {
+    class Image : private PNG {
         public:
             void lighten();
             void lighten(double amount);
