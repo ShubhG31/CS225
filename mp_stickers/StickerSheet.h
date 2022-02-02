@@ -14,4 +14,8 @@ using namespace cs225;
       const StickerSheet & operator=(const StickerSheet);
       void changeMaxSticker(unsigned max);
       int addSticker(Image &sticker, unsigned x, unsigned y );
+      bool translate(unsigned index, unsigned x, unsigned y);
+      void removeSticker(unsigned index);
+      Image * getSticker(unsigned index);
+      Image render() const;
  };
