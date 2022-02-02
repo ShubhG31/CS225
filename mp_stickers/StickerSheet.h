@@ -7,6 +7,11 @@
 #include "cs225/PNG.h"
 using namespace cs225;
  class StickerSheet{
-    StickerSheet(const Image &picture,unsigned max);
-
+   public:
+      StickerSheet(const Image &picture,unsigned max);
+      StickerSheet(const StickerSheet &other);
+      ~StickerSheet();
+      const StickerSheet & operator=(const StickerSheet);
+      void changeMaxSticker(unsigned max);
+      int addSticker(Image &sticker, unsigned x, unsigned y );
  };

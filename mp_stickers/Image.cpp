@@ -116,6 +116,7 @@ namespace cs225{
     void Image::scale(double factor){
         unsigned height = this->height();
         unsigned width= this->width();
+        
         this->resize(factor*width,factor*height);
     }
     void Image::scale(unsigned w, unsigned h){
