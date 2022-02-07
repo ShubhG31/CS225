@@ -5,8 +5,8 @@
 
 #pragma once
 #include "cs225/PNG.h"
+using namespace cs225;
 
-namespace cs225{
     class Image : public PNG {
         public:
             void lighten();
@@ -23,4 +23,4 @@ namespace cs225{
             void scale(double factor);
             void scale(unsigned w, unsigned h);
     };
-}
+

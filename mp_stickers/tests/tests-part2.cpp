@@ -300,6 +300,7 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
   REQUIRE( renderXBound.height() == alma.height() );
 
   checkStickerPlacement(i, renderXBound, 800, 200);
+  std::cout<<"reached here"<<std::endl;
 
   sheet.removeSticker(0);
 
@@ -314,6 +315,7 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
   REQUIRE( renderYBound.height() == i.height() + 500 );
 
   checkStickerPlacement(i, renderYBound, 20, 500);
+  std::cout<<"reached here2"<<std::endl;
 
   sheet.removeSticker(0);
   sheet.changeMaxStickers(2);
@@ -326,6 +328,7 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
   const Image &renderXYBound = sheet.render();
 
   checkStickerPlacement(i, renderXYBound, 800, 200);
+  std::cout<<"reached here3"<<std::endl;
   checkStickerPlacement(i, renderXYBound, 20, 500);
 
   sheet.changeMaxStickers(0);
