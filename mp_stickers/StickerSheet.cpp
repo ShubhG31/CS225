@@ -53,25 +53,27 @@ using namespace std;
         delete base_image;      //new 
     }
     void StickerSheet::changeMaxStickers(unsigned max){
-        amount_stickers= max;
-        while(max<=stickers.size()-1){
-            cout<<"here"<<endl;
-            delete stickers.at(stickers.size()-1);    //new 
-            // stickers.pop_back();
-            cout<<"here"<<endl;
-            stickers.erase(stickers.end()-1);
-
+        
+        if(stickers.size()<max){
+            amount_stickers=max;
+            return;
         }
+        amount_stickers = max;
+        for(unsigned i = amount_stickers; i<stickers.size();++i){
+            delete stickers.at(i);
+            cout<<"here"<<endl;
+        }
+        stickers.erase(stickers.begin()+amount_stickers,stickers.end());
         cout<<"l"<<endl;
     }
     int StickerSheet::addSticker(Image &sticker, unsigned x, unsigned y ){
-        for(unsigned i=0; i<stickers.size();i++){
-            if(stickers[i]==nullptr){
-                stickers[i]=new Image(sticker); //new 
-                coordinates[i]=make_pair(x,y);
-                return i;
-            }
-        }
+        // for(unsigned i=0; i<stickers.size();i++){
+        //     if(stickers[i]==nullptr){
+        //         stickers[i]=&sticker; //new 
+        //         coordinates[i]=make_pair(x,y);
+        //         return i;
+        //     }
+        // }
         if(amount_stickers==stickers.size())return -1;
         stickers.push_back(new Image(sticker)); // new 
         coordinates.push_back(make_pair(x,y));
@@ -86,7 +88,12 @@ using namespace std;
     }
     void StickerSheet::removeSticker(unsigned index){
         Image *temp=stickers[index];
-        stickers[index]=nullptr;
+        // stickers[index]=nullptr;
+        delete stickers.at(index);
+        stickers.erase(stickers.begin()+index);
+        // stickers.push_back(nullptr);
+        coordinates.erase(coordinates.begin()+index);
+        // coordinates.push_back();
         cout<<"r"<<endl;
         // delete temp;
     }
