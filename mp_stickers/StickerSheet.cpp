@@ -6,7 +6,6 @@ using namespace std;
     StickerSheet::StickerSheet(const Image &picture,unsigned max){
         base_image= new Image(picture);             //new   
         amount_stickers=max;
-        cout<<"h"<<endl;
     }
     StickerSheet::StickerSheet(const StickerSheet &other){
         base_image = new Image(*other.base_image);
@@ -16,7 +15,6 @@ using namespace std;
             stickers.push_back(temp);
             coordinates.push_back(other.coordinates[i]);
         }
-        cout<<"e"<<endl;
     }
 
     const StickerSheet & StickerSheet::operator= (const StickerSheet &other){
@@ -33,7 +31,6 @@ using namespace std;
                 coordinates.push_back(other.coordinates[i]);
             }
         }
-        cout<<"e"<<endl;
         return *this;
     }
     // void StickerSheet::_copy(StickerSheet const &other){
@@ -61,10 +58,8 @@ using namespace std;
         amount_stickers = max;
         for(unsigned i = amount_stickers; i<stickers.size();++i){
             delete stickers.at(i);
-            cout<<"here"<<endl;
         }
         stickers.erase(stickers.begin()+amount_stickers,stickers.end());
-        cout<<"l"<<endl;
     }
     int StickerSheet::addSticker(Image &sticker, unsigned x, unsigned y ){
         // for(unsigned i=0; i<stickers.size();i++){
@@ -77,13 +72,11 @@ using namespace std;
         if(amount_stickers==stickers.size())return -1;
         stickers.push_back(new Image(sticker)); // new 
         coordinates.push_back(make_pair(x,y));
-        cout<<"o"<<endl;
         return stickers.size()-1;
     }
     bool StickerSheet::translate(unsigned index, unsigned x, unsigned y){
         if(index>coordinates.size()-1 || index<0) return false;
         coordinates[index]=make_pair(x,y);
-        cout<<"w"<<endl;
         return true;
     }
     void StickerSheet::removeSticker(unsigned index){
@@ -94,11 +87,9 @@ using namespace std;
         // stickers.push_back(nullptr);
         coordinates.erase(coordinates.begin()+index);
         // coordinates.push_back();
-        cout<<"r"<<endl;
         // delete temp;
     }
     Image * StickerSheet::getSticker(unsigned index){
-        cout<<"l"<<endl;
         if(index>=stickers.size() || index<0)return NULL;
         return stickers[index];
     }
@@ -121,6 +112,5 @@ using namespace std;
                 }
             }
         }
-        cout<<"d"<<endl;
         return final;
     }
