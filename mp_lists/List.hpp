@@ -2,12 +2,15 @@
  * @file list.cpp
  * Doubly Linked List (MP 3).
  */
+#include "List.h"
 
 template <class T>
 List<T>::List() { 
   // @TODO: graded in MP3.1
-    ListNode* head_ = NULL;
+    // ListNode* head_ = NULL;
+    ListNode* head_=NULL;
     ListNode* tail_ = NULL;
+
 }
 
 /**
@@ -17,7 +20,8 @@ List<T>::List() {
 template <typename T>
 typename List<T>::ListIterator List<T>::begin() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  
+  return List<T>::ListIterator(head_);
 }
 
 /**
@@ -37,6 +41,16 @@ typename List<T>::ListIterator List<T>::end() const {
 template <typename T>
 void List<T>::_destroy() {
   /// @todo Graded in MP3.1
+  // for(ListIterator it = begin(); it != end(); ++it){
+
+  // }
+  ListNode *temp;
+  while(head_!=NULL){
+    temp=head_->next;
+    delete head_;
+    head_=temp;
+  }
+  // tail_=NULL;
 }
 
 /**
@@ -58,7 +72,7 @@ void List<T>::insertFront(T const & ndata) {
   if (tail_ == NULL) {
     tail_ = newNode;
   }
-  
+  head_=newNode;
 
   length_++;
 
