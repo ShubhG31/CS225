@@ -159,7 +159,6 @@ void List<T>::tripleRotate() {
   ListNode *prev;
   head_=head_->next;
   for(int i=0;i+3<=length_;i+=3){
-    std::cout<<"h"<<std::endl;
     prev=tempHead->prev;
     Node3=tempHead;
     tempHead=tempHead->next;
