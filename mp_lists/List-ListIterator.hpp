@@ -12,6 +12,7 @@ class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T> {
     // Pre-Increment, ++iter
     ListIterator& operator++() {
         // @TODO: graded in MP3.1
+        this->position_=this->position_->next;
         return *this;
     }
     
@@ -20,24 +21,30 @@ class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T> {
         // @TODO: graded in MP3.1
         ListNode* temp = position_;
         position_ = position_->next;
-        return ListIterator(NULL);
+        return ListIterator(temp);
     }
 
     // Pre-Decrement, --iter
     ListIterator& operator--() {
         // @TODO: graded in MP3.1
+        this->position_=this->position_->prev;
         return *this;
     }
 
     // Post-Decrement, iter--
     ListIterator operator--(int) {
         // @TODO: graded in MP3.1
-        return ListIterator();
+        ListNode* temp = position_;
+        position_ = position_->prev;
+        return ListIterator(temp);
     }
 
     bool operator!=(const ListIterator& rhs) {
         // @TODO: graded in MP3.1
-        return false;
+        if(this->position_ == rhs.position_){
+            return false;
+        }
+        return true;
     }
 
     bool operator==(const ListIterator& rhs) {

@@ -8,8 +8,9 @@ template <class T>
 List<T>::List() { 
   // @TODO: graded in MP3.1
     // ListNode* head_ = NULL;
-    ListNode* head_=NULL;
-    ListNode* tail_ = NULL;
+  head_=NULL;
+  tail_ = NULL;
+    length_=0;
 
 }
 
@@ -50,7 +51,8 @@ void List<T>::_destroy() {
     delete head_;
     head_=temp;
   }
-  // tail_=NULL;
+  head_ = NULL;
+  tail_=NULL;
 }
 
 /**
@@ -75,7 +77,7 @@ void List<T>::insertFront(T const & ndata) {
   head_=newNode;
 
   length_++;
-
+  return;
 }
 
 /**
@@ -87,6 +89,20 @@ void List<T>::insertFront(T const & ndata) {
 template <typename T>
 void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
+    // ListNode *end = tail_->next;
+  ListNode * newNode = new ListNode(ndata);
+  newNode -> next = NULL;
+  newNode -> prev = tail_;
+  if (tail_ != NULL) {
+    tail_->next = newNode;
+  }
+  if (head_ == NULL) {
+    head_ = newNode;
+  }
+  tail_=newNode;
+  length_++;
+  return;
+
 }
 
 /**
@@ -109,17 +125,16 @@ template <typename T>
 typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.1
   ListNode * curr = start;
-
-  for (int i = 0; i < splitPoint || curr != NULL; i++) {
+  // if(splitPoint==0)return start;
+  for (int i = 0; i < splitPoint && curr != NULL; i++) {
     curr = curr->next;
   }
-
-  if (curr != NULL) {
+  if (curr != NULL && curr->prev !=NULL) {
       curr->prev->next = NULL;
       curr->prev = NULL;
   }
-
-  return NULL;
+  return curr;
+  
 }
 
 /**
@@ -135,6 +150,41 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 template <typename T>
 void List<T>::tripleRotate() {
   // @todo Graded in MP3.1
+  if(length_<3) return;
+  ListNode *tempHead=head_;
+  ListNode *Node1;
+  ListNode *Node2;
+  ListNode *Node3;
+  ListNode *next;
+  ListNode *prev;
+  head_=head_->next;
+  for(int i=0;i+3<=length_;i+=3){
+    std::cout<<"h"<<std::endl;
+    prev=tempHead->prev;
+    Node3=tempHead;
+    tempHead=tempHead->next;
+    Node1= tempHead;
+    tempHead=tempHead->next;
+    Node2=tempHead;
+    tempHead=tempHead->next;
+    next=tempHead;
+
+
+    Node1->prev=prev;
+    if(Node1->prev!=NULL){
+      Node1->prev->next=Node1;
+    }
+    Node1->next=Node2;
+    Node2->prev=Node1;
+    Node2->next=Node3;
+    Node3->prev=Node2;
+    Node3->next=next;
+    if(Node3->next!=NULL){
+      Node3->next->prev=Node3;
+    }
+  }
+  tail_=next;
+  return;
 }
 
 
@@ -142,7 +192,7 @@ void List<T>::tripleRotate() {
  * Reverses the current List.
  */
 template <typename T>
-void List<T>::reverse() {
+void List<T>::reverse() { 
   reverse(head_, tail_);
 }
 
