@@ -129,10 +129,12 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   for (int i = 0; i < splitPoint && curr != NULL; i++) {
     curr = curr->next;
   }
+
   if (curr != NULL && curr->prev !=NULL) {
       curr->prev->next = NULL;
       curr->prev = NULL;
   }
+
   return curr;
   
 }
@@ -209,6 +211,20 @@ void List<T>::reverse() {
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.2
+  ListNode *front=startPoint;
+  ListNode *back=endPoint;
+  ListNode *head=endPoint;
+  ListNode *temp;
+  int i=0;
+  while(i<length_){
+    temp=back->next;
+    back->next=back->prev;
+    back->prev=temp;
+    back=back->next;
+    i++;
+  }
+  head_=endPoint;
+  tail_=startPoint;
 }
 
 /**
@@ -220,6 +236,16 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <typename T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.2
+  int i=n;
+  while(i<length_){
+    temp=back->next;
+    back->next=back->prev;
+    back->prev=temp;
+    back=back->next;
+    i++;
+  }
+  head_=endPoint;
+  tail_=startPoint;
 }
 
 
