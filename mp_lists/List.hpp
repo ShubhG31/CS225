@@ -215,16 +215,28 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   ListNode *back=endPoint;
   ListNode *head=endPoint;
   ListNode *temp;
+  ListNode* N=startPoint->prev;
   int i=0;
-  while(i<length_){
+  while(back!=N){
+    std::cout<<i<<std::endl;
     temp=back->next;
     back->next=back->prev;
     back->prev=temp;
     back=back->next;
     i++;
+    
   }
-  head_=endPoint;
-  tail_=startPoint;
+  std::swap(startPoint,endPoint);
+  std::swap(startPoint->prev,endPoint->next);
+  // startPoint->prev->next=startPoint;
+  if(endPoint->next!=NULL){
+  endPoint->next->prev=endPoint;
+  }
+  if(startPoint->prev!=NULL){
+  startPoint->prev->next=startPoint;
+  }
+  // head_=endPoint;
+  // tail_=startPoint;
 }
 
 /**
@@ -236,16 +248,44 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <typename T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.2
-  int i=n;
-  while(i<length_){
-    temp=back->next;
-    back->next=back->prev;
-    back->prev=temp;
-    back=back->next;
-    i++;
+  if(n==0) return;
+  ListNode *start=head_;
+  ListNode *end=start;
+  // int i=0;
+  // while(start!=NULL){
+  //   if(i==n && end!=NULL){
+  //       std::cout<<start<<std::endl;
+  //       std::cout<<end<<std::endl;
+  //       reverse(start,end);
+  //       start=end->next;
+  //       end=end->next;
+  //       end=start;
+  //       i=0;
+  //       continue;
+  //   }
+  //   if(end==NULL) {
+  //     start=NULL;
+  //     continue;
+  //     }
+  //   end=end->next;
+  //   i++;
+  // }
+  for(int i= 0; i+n<=length_ && end != NULL ;i++){
+    if(i%(n-1)==0 && end!=NULL){
+      std::cout<<start<<std::endl;
+        std::cout<<end<<std::endl;
+        reverse(start,end);
+        start=end->next;
+        // start=end;
+        end=end->next;
+        continue;
+    }
+    // if(end==NULL) {
+    //   start=NULL;
+    //   continue;
+    //   }
+    end=end->next;
   }
-  head_=endPoint;
-  tail_=startPoint;
 }
 
 
