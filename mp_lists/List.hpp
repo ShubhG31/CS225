@@ -329,44 +329,167 @@ void List<T>::mergeWith(List<T> & otherList) {
  */
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
-  /// @todo Graded in MP3.2
+  // @todo Graded in MP3.2
 
-  ListNode *copyFirst=first;
-  ListNode *copySecond=second;
-  ListNode *result;
-  if(first==NULL && second !=NULL) return second;
-  if(first!=NULL && second ==NULL) return first;
-  if(first==NULL && second ==NULL) return NULL;
+ListNode *f=first;
+ListNode *s=second;
+ListNode *result;
 
-  ListNode *r;
-  if(copyFirst->data<copySecond->data){
-      result=copyFirst;
-      copySecond=second;
+  if(s->data < f->data) {
+    result=s;
+    s=s->next;
   }
   else{
-    result=copySecond;
-    copyFirst=first;
+    result=f;
+    f->prev=result;
+    f=f->next;
+    }
+  ListNode* start=result;
+
+  while(s!=NULL && f!=NULL){
+        if(s->data<f->data){
+          result->next=s;
+          s->prev=result;
+          s=s->next;
+          result=result->next;
+
+
+          // if(s!=NULL){
+          //   // s=s->next;
+          //   s->prev->next=NULL;
+          //   s->prev->prev=result;
+          //   s->prev=NULL;
+          }
+        else{
+          result->next=f;
+          f->prev=result;
+          f=f->next;
+          result=result->next;
+          }
   }
-  r=result;
-  copyFirst=split(result,1);
-  // r=result;
-  while(copyFirst!=NULL || copySecond!=NULL){
-    if(copyFirst==NULL){
-      result->next=copySecond;
-      copySecond->prev = result;
-      result = result->next;
-      copySecond = split(result, 1);
-    }
-    else if(copySecond==NULL){
-      result->next=copyFirst;
-      copyFirst->prev = result;
-      result = result->next;
-      copyFirst = split(result, 1);
-    }
-    }
+  if(f==NULL && s!=NULL){
+    result->next=s;
+    s->prev=result;
+    s=s->next;
+  }
+  if(f!=NULL && s==NULL){
+    result->next=f;
+    f->prev=result;
+    f=f->next;
+  }
+  return start;
 }
-  return r;
-}
+
+  // while(result!=NULL){
+  //     if(s!=NULL && f!=NULL){
+  //       if(s->data<f->data){
+  //         result->next=s;
+  //         s=s->next;
+  //         if(s!=NULL){
+  //           s=s->next;
+  //           s->prev->next=NULL;
+  //           s->prev->prev=result;
+  //           s->prev=NULL;
+  //         }
+  //       }
+  //       else{
+  //         result->next=f;
+  //         f=f->next;
+  //         if(f!=NULL){
+  //           f->prev->next=NULL;
+  //           f->prev->prev=result;
+  //           f->prev=NULL;
+  //         }
+  //       }
+  //     }
+  //     else if(s!=NULL && f==NULL){
+  //       result->next=s;
+  //       s->prev=result;
+  //     }
+  //     else if(f!=NULL && s==NULL){
+  //       result->next=f;
+  //       f->prev=result;
+  //     }
+  //     else if(s==NULL && f==NULL){
+  //       return start;
+  //     }
+
+
+  // }
+  // while(f!=NULL || s!=NULL){
+  //     if(s!=NULL && result->data<s->data){
+  //         result->next=s;
+  //         s=s->next;
+  //         s->prev->next=NULL;
+  //         s->prev=NULL;
+  //     }
+  //     else if(f!=NULL && f->data<result->data){
+  //         result->next=f;
+  //         f=f->next;
+  //         f->prev->next=NULL;
+  //         f->prev=NULL;
+  //     }
+  //     else if(f!=NULL && s==NULL){
+  //         result->next=f;
+  //         break;
+  //     }
+  //     else if(f==NULL && s!=NULL){
+  //         result->next=s;
+  //     }
+  // }
+// return start;
+// }
+
+
+//   ListNode *copyFirst=first;
+//   ListNode *copySecond=second;
+//   ListNode *result;
+//   if(first==NULL && second !=NULL) return second;
+//   if(first!=NULL && second ==NULL) return first;
+//   if(first==NULL && second ==NULL) return NULL;
+
+//   ListNode *r;
+//   if(copyFirst->data<copySecond->data){
+//       result=copyFirst;
+//       copySecond=second;
+//   }
+//   else{
+//     result=copySecond;
+//     copyFirst=first;
+//   }
+//   r=result;
+//   copyFirst=split(result,1);
+//   // r=result;
+//   while(copyFirst!=NULL || copySecond!=NULL){
+//     if(copyFirst==NULL){
+//       result->next=copySecond;
+//       copySecond->prev = result;
+//       result = result->next;
+//       copySecond = split(result, 1);
+//     }
+//     else if(copySecond==NULL){
+//       result->next=copyFirst;
+//       copyFirst->prev = result;
+//       result = result->next;
+//       copyFirst = split(result, 1);
+//     }
+//     else {
+//       if(copyFirst->data<copySecond->data){
+//       result->next=copyFirst;
+//       copyFirst->prev=result;
+//       result=result->next;
+//       copyFirst=split(result,1);
+//     }
+//       else{
+//         result->next=copySecond;
+//         copySecond->prev=result;
+//         result=result->next;
+//         copySecond=split(result,1);
+//       }
+//     }
+// }
+//   return r;
+
 /**
  * Sorts a chain of linked memory given a start node and a size.
  * This is the recursive helper for the Mergesort algorithm (i.e., this is
