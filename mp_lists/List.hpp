@@ -341,42 +341,46 @@ ListNode *result;
   }
   else{
     result=f;
-    f->prev=result;
+    // f->prev=result;
     f=f->next;
     }
   ListNode* start=result;
 
-  while(s!=NULL && f!=NULL){
-        if(s->data<f->data){
-          result->next=s;
-          s->prev=result;
-          s=s->next;
-          result=result->next;
+  while(s!=NULL || f!=NULL){
+    if(f==NULL && s!=NULL){
+    result->next=s;
+    s->prev=result;
+    s=s->next;
+    break;
+  }
+    else if(f!=NULL && s==NULL){
+      result->next=f;
+      f->prev=result;
+      f=f->next;
+      break;
+    }
+    else if(s->data<f->data){
+      result->next=s;
+      s->prev=result;
+      s=s->next;
+      result=result->next;
 
 
-          // if(s!=NULL){
-          //   // s=s->next;
-          //   s->prev->next=NULL;
-          //   s->prev->prev=result;
-          //   s->prev=NULL;
-          }
+      // if(s!=NULL){
+      //   // s=s->next;
+      //   s->prev->next=NULL;
+      //   s->prev->prev=result;
+      //   s->prev=NULL;
+      }
         else{
           result->next=f;
           f->prev=result;
           f=f->next;
           result=result->next;
           }
+         
   }
-  if(f==NULL && s!=NULL){
-    result->next=s;
-    s->prev=result;
-    s=s->next;
-  }
-  if(f!=NULL && s==NULL){
-    result->next=f;
-    f->prev=result;
-    f=f->next;
-  }
+
   return start;
 }
 
