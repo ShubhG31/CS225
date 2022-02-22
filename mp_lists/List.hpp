@@ -333,6 +333,10 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
   ListNode *copyFirst=first;
   ListNode *copySecond=second;
   ListNode *result;
+  if(first==NULL && second !=NULL) return second;
+  if(first!=NULL && second ==NULL) return first;
+  if(first==NULL && second ==NULL) return NULL;
+
   ListNode *r;
   if(copyFirst->data<copySecond->data){
       result=copyFirst;
@@ -356,7 +360,7 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
       result = result->next;
       copyFirst = split(result, 1);
     }
-    else if(copyFirst->data<copySecond->data){
+    else {if(copyFirst->data<copySecond->data){
       result->next=copyFirst;
       copyFirst->prev=result;
       result=result->next;
@@ -367,6 +371,7 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
       copySecond->prev=result;
       result=result->next;
       copySecond=split(result,1);
+    }
     }
 }
   return r;
@@ -385,7 +390,29 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
 template <typename T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
-  return NULL;
+  if(chainLength<=1){
+    return start;
+  }
+int split=chainLength/2;
+  ListNode* second=start;
+  int i=0;
+  // split(start,chainLength/2);
+  // for(int i =0; i<split && second!=NULL;i+=1){
+  while(i<split && second!=NULL){
+    cout << i << " " << split << endl;
+    second=second->next;
+    i++;
+  }
+  if(second!=NULL){
+  second->prev->next=NULL;
+  second->prev=NULL;
+  }
+  // int split=chainLength/2;
+  // ListNode* second= split()
+  ListNode* first = mergesort(start,split);
+  ListNode* s = mergesort(second,chainLength-split);
+  ListNode* r= merge(first,s);
+  return r;
 }
 // template <typename T>
 // List< T >::ListIterator List< T >::begin()	const{
