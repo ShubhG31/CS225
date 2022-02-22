@@ -330,6 +330,7 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
+
   ListNode *copyFirst=first;
   ListNode *copySecond=second;
   ListNode *result;
@@ -340,13 +341,15 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
   ListNode *r;
   if(copyFirst->data<copySecond->data){
       result=copyFirst;
-
+      copySecond=second;
   }
   else{
     result=copySecond;
+    copyFirst=first;
   }
-  copyFirst=split(result,1);
   r=result;
+  copyFirst=split(result,1);
+  // r=result;
   while(copyFirst!=NULL || copySecond!=NULL){
     if(copyFirst==NULL){
       result->next=copySecond;
@@ -359,18 +362,6 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
       copyFirst->prev = result;
       result = result->next;
       copyFirst = split(result, 1);
-    }
-    else {if(copyFirst->data<copySecond->data){
-      result->next=copyFirst;
-      copyFirst->prev=result;
-      result=result->next;
-      copyFirst=split(result,1);
-    }
-    else{
-      result->next=copySecond;
-      copySecond->prev=result;
-      result=result->next;
-      copySecond=split(result,1);
     }
     }
 }
@@ -399,7 +390,7 @@ int split=chainLength/2;
   // split(start,chainLength/2);
   // for(int i =0; i<split && second!=NULL;i+=1){
   while(i<split && second!=NULL){
-    cout << i << " " << split << endl;
+    // cout << i << " " << split << endl;
     second=second->next;
     i++;
   }
