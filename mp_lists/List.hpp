@@ -211,29 +211,52 @@ void List<T>::reverse() {
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.2
+  if (startPoint == endPoint) {return;}
   ListNode *front=startPoint;
   ListNode *back=endPoint;
-  ListNode *head=endPoint;
+  // ListNode *End=endPoint;
   ListNode *temp;
-  ListNode* N=startPoint->prev;
-  int i=0;
-  while(back!=N){
-    std::cout<<i<<std::endl;
-    temp=back->next;
-    back->next=back->prev;
-    back->prev=temp;
-    back=back->next;
-    i++;
+  ListNode * curr = startPoint;
+  ListNode* before=front->prev;
+  ListNode* after=back->next;
+  // int i=0;
+  while(curr!=back){
+    temp=curr->next;
+    curr->next=curr->prev;
+    curr->prev=temp;
+    curr=temp;
+    // i++;
     
   }
-  std::swap(startPoint,endPoint);
-  std::swap(startPoint->prev,endPoint->next);
-  // startPoint->prev->next=startPoint;
-  if(endPoint->next!=NULL){
-  endPoint->next->prev=endPoint;
+  temp=curr->next;
+  curr->next=curr->prev;
+  curr->prev=temp;
+  
+  // std::swap(startPoint,endPoint);
+  if(before!=NULL){
+    before->next=back;
   }
-  if(startPoint->prev!=NULL){
-  startPoint->prev->next=startPoint;
+  back->prev=before;
+  front->next=after;
+  if(after!=NULL){
+    after->prev=front;
+  }
+  // std::swap(startPoint->prev,endPoint->next);
+  // startPoint->prev->next=startPoint;
+  // if(endPoint->next!=NULL){
+  // endPoint->next->prev=endPoint;
+  // }
+  // if(startPoint->prev!=NULL){
+  // startPoint->prev->next=startPoint;
+  // }
+  if(startPoint==head_){
+    head_=back;
+  }
+  if(endPoint==tail_){
+    tail_=front;
+  }
+  if (startPoint != head_ && endPoint != tail_) {
+    std::swap(startPoint,endPoint);
   }
   // head_=endPoint;
   // tail_=startPoint;
@@ -248,43 +271,23 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <typename T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.2
-  if(n==0) return;
+  if(n==0 && n==1) return;
   ListNode *start=head_;
+  int size=length_;
   ListNode *end=start;
-  // int i=0;
-  // while(start!=NULL){
-  //   if(i==n && end!=NULL){
-  //       std::cout<<start<<std::endl;
-  //       std::cout<<end<<std::endl;
-  //       reverse(start,end);
-  //       start=end->next;
-  //       end=end->next;
-  //       end=start;
-  //       i=0;
-  //       continue;
-  //   }
-  //   if(end==NULL) {
-  //     start=NULL;
-  //     continue;
-  //     }
-  //   end=end->next;
-  //   i++;
-  // }
-  for(int i= 0; i+n<=length_ && end != NULL ;i++){
-    if(i%(n-1)==0 && end!=NULL){
-      std::cout<<start<<std::endl;
-        std::cout<<end<<std::endl;
+  int i=0;
+ while(end!=NULL){
+    if(i==n-1 || end==tail_){
         reverse(start,end);
+        if(end==tail_)return;
         start=end->next;
-        // start=end;
         end=end->next;
+
+        i=0;
         continue;
     }
-    // if(end==NULL) {
-    //   start=NULL;
-    //   continue;
-    //   }
     end=end->next;
+    i++;
   }
 }
 
@@ -327,9 +330,47 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
-  return NULL;
-}
+  ListNode *copyFirst=first;
+  ListNode *copySecond=second;
+  ListNode *result;
+  ListNode *r;
+  if(copyFirst->data<copySecond->data){
+      result=copyFirst;
 
+  }
+  else{
+    result=copySecond;
+  }
+  copyFirst=split(result,1);
+  r=result;
+  while(copyFirst!=NULL || copySecond!=NULL){
+    if(copyFirst==NULL){
+      result->next=copySecond;
+      copySecond->prev = result;
+      result = result->next;
+      copySecond = split(result, 1);
+    }
+    else if(copySecond==NULL){
+      result->next=copyFirst;
+      copyFirst->prev = result;
+      result = result->next;
+      copyFirst = split(result, 1);
+    }
+    else if(copyFirst->data<copySecond->data){
+      result->next=copyFirst;
+      copyFirst->prev=result;
+      result=result->next;
+      copyFirst=split(result,1);
+    }
+    else{
+      result->next=copySecond;
+      copySecond->prev=result;
+      result=result->next;
+      copySecond=split(result,1);
+    }
+}
+  return r;
+}
 /**
  * Sorts a chain of linked memory given a start node and a size.
  * This is the recursive helper for the Mergesort algorithm (i.e., this is
@@ -346,3 +387,11 @@ typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength
   /// @todo Graded in MP3.2
   return NULL;
 }
+// template <typename T>
+// List< T >::ListIterator List< T >::begin()	const{
+//   return head_;
+// }
+// template <typename T>
+// bool List< T >::empty	()	const{
+//     NULL;
+// }

@@ -8,7 +8,7 @@ int main() {
   array.insertBack(4);
   array.insertBack(5);
   array.insertBack(6);
-  array.reverseNth(3);
+  array.reverseNth(6);
   array.print(std::cout);
   return 0;
 }
