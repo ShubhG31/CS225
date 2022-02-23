@@ -341,7 +341,7 @@ ListNode *result;
   }
   else{
     result=f;
-    // f->prev=result;
+    f->prev=result;
     f=f->next;
     }
   ListNode* start=result;
@@ -352,7 +352,7 @@ ListNode *result;
     s->prev=result;
     s=s->next;
     break;
-  }
+   }
     else if(f!=NULL && s==NULL){
       result->next=f;
       f->prev=result;
@@ -364,13 +364,6 @@ ListNode *result;
       s->prev=result;
       s=s->next;
       result=result->next;
-
-
-      // if(s!=NULL){
-      //   // s=s->next;
-      //   s->prev->next=NULL;
-      //   s->prev->prev=result;
-      //   s->prev=NULL;
       }
         else{
           result->next=f;
