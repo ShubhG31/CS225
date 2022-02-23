@@ -282,7 +282,6 @@ void List<T>::reverseNth(int n) {
         if(end==tail_)return;
         start=end->next;
         end=end->next;
-
         i=0;
         continue;
     }
