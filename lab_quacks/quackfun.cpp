@@ -29,9 +29,13 @@ namespace QuackFun {
 template <typename T>
 T sum(stack<T>& s)
 {
-
+    if(s.empty()) return 0;
     // Your code here
-    return T(); // stub return value (0 for primitive types). Change this!
+    T value = s.top();
+    s.pop();
+    T total= sum(s) +value;
+    s.push(value);
+    return total ; // stub return value (0 for primitive types). Change this!
                 // Note: T() is the default value for objects, and 0 for
                 // primitive types
 }
@@ -55,8 +59,28 @@ T sum(stack<T>& s)
  */
 bool isBalanced(queue<char> input)
 {
-
     // @TODO: Make less optimistic
+    stack<char> storage;
+    char var;
+    while(!input.empty()){
+        var=input.front();
+        input.pop();
+        if(var == '['){
+            storage.push('[');
+        }
+        if(var==']'){
+            if(storage.empty()==false && storage.top()=='['){
+                storage.pop();
+                continue;
+            }
+            if(storage.empty())return false;
+        }
+
+
+    }
+    if(storage.empty()==false){
+        return false;
+    }
     return true;
 }
 
@@ -79,8 +103,47 @@ template <typename T>
 void scramble(queue<T>& q)
 {
     stack<T> s;
-    // optional: queue<T> q2;
+    // optional: 
+    queue<T> q2;
+    int counter=1;
+    int size=q.size();
+    while(size!=0){
+        
+        if(counter%2==0){
+            if (unsigned(counter) > q.size()){
+            counter=q.size();
+           }
+            for(int j=0; j<counter;j++){
+                T temp=q.front();
+                q.pop();
+                s.push(temp);
+            }
+            int Val=counter;
+            while(Val>0){
+                T old=s.top();
+                q2.push(old);
+                s.pop();
+                Val--;
+            } 
+        }
+    else{
+        if (unsigned(counter) > q.size()){
+            counter=q.size();
+        }
+        for(int i=0; i<counter;i++){
+            T hold;
+            hold=q.front();
+            q2.push(hold);
+            q.pop();
+        }
+    }
+        counter++;
+        size--;
+    }
 
-    // Your code here
+    std::swap(q2,q);
+
+
 }
 }
+

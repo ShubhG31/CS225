@@ -15,9 +15,10 @@ using cs225::PNG;
 const double PI = 3.141592;
 
 Circle::Circle(const Vector2& pcenter, const HSLAPixel& pcolor, int pradius)
-    : radius_(pradius)
+    : Shape(pcenter,pcolor), radius_(pradius)
 {
     /* Nothing.  See initialization list. */
+
 }
 
 int Circle::area() const

@@ -5,7 +5,6 @@
 
 #include <iterator>
 #include <stack>
-
 /**
  * A derived, templatized class for inorder traversal algorithms on trees.
  * 
@@ -25,8 +24,12 @@ class InorderTraversal : public TreeTraversal<T> {
     InorderTraversal(typename BinaryTree<T>::Node* root)
 	    : root(root)
     {
-      stack.push(root);	
       // your code here
+      typename BinaryTree<T>::Node* currentNode= root;
+          while(currentNode!=NULL){
+            stack.push(currentNode);
+            currentNode=currentNode->left;
+          }
     }
 
     /**
@@ -61,6 +64,11 @@ class InorderTraversal : public TreeTraversal<T> {
      */	
     void add(typename BinaryTree<T>::Node *& treeNode) {
       // your code here
+      typename BinaryTree<T>::Node* currentNode=treeNode->right;
+      while(currentNode!=NULL){
+        stack.push(currentNode);
+        currentNode=currentNode->left;
+      }
       return;	
     }
 

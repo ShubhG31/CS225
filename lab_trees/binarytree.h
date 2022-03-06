@@ -11,6 +11,7 @@
 #include <vector>
 #include <sstream>
 #include <random>
+#include <queue>
 
 /**
  * The BinaryTree class represents a templated linked-memory tree data
@@ -120,7 +121,7 @@ class BinaryTree
          *  (not creating a flipped copy).
          */
         void mirror();
-
+        void mirror(Node* subRoot);
         /**
          * isOrdered() function iterative version
          * @return True if an in-order traversal of the tree would produce a
@@ -145,6 +146,8 @@ class BinaryTree
          * @param treeVector stores nodes in order
          */
         void inOrder(std::vector<T>& treeVector);
+
+        void recursion(std::queue<T>& Vector,const Node* root) const;
 
     protected:
 

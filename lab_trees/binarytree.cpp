@@ -5,6 +5,7 @@
  */
 #include "TreeTraversals/InorderTraversal.h"
 #include <iostream>
+#include <queue>
 
 /**
  * @return The height of the binary tree. Recall that the height of a binary
@@ -79,6 +80,20 @@ void BinaryTree<T>::printLeftToRight(const Node* subRoot) const
 void BinaryTree<T>::mirror()
 {
     //your code here
+    mirror(root);
+    
+}
+
+template <typename T>
+void BinaryTree<T>::mirror(Node* subRoot){
+    if(subRoot==NULL){
+        return;
+    }
+
+    std::swap(subRoot->left,subRoot->right);
+
+    mirror(subRoot->left);
+    mirror(subRoot->right);
 }
 
 
@@ -92,7 +107,19 @@ template <typename T>
 bool BinaryTree<T>::isOrderedIterative() const
 {
     // your code here
-    return false;
+    InorderTraversal<T> t(root);
+    typename TreeTraversal<T>::Iterator it=t.begin();
+    T temp=(*it)->elem;
+    while(it!=t.end()){
+        temp=(*it)->elem;
+        ++it;
+        if(*it!=NULL){
+            if(temp>(*it)->elem){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /**
@@ -105,6 +132,24 @@ template <typename T>
 bool BinaryTree<T>::isOrderedRecursive() const
 {
     // your code here
-    return false;
+    std::queue<T> list;
+    recursion(list, root);
+    T check= list.front();
+    while(!list.empty()){
+        list.pop();
+        if(list.empty()) return true;
+        if(list.front()<check) return false;
+        check = list.front();
+    }
+    return true;
 }
+template <typename T>
+void BinaryTree<T>::recursion(std::queue<T>& Vector,const Node* root) const {
+   if(root!=NULL){
 
+       recursion(Vector,root->left);
+       Vector.push(root->elem);
+       recursion(Vector, root->right);
+   }
+   return;
+}
