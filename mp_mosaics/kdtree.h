@@ -259,6 +259,9 @@ class KDTree
     /**
      * @todo Add your helper functions here.
      */
+    int partition(vector<Point<Dim>>&list, int left, int right, int pivotIndex, int dim);
+    void buildTree(vector<Point<Dim>> &points, int dim, int left, int right, KDTreeNode * &curRoot);
+    Point<Dim> select(vector<Point<Dim>>&list, int right, int left, int k, int dim);
 };
 
 #include "kdtree.hpp"
