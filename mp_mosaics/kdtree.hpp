@@ -91,7 +91,7 @@ void KDTree<Dim>::copyTree(KDTreeNode*& root, KDTreeNode*& copyRoot){
     if(root==NULL){
       return;
     }
-    copyTree(root, copyRoot->left);
+    copyTree(root, copyRoot->left);~
     copyTree(root, copyRoot->right);
     copyRoot= new KDTreeNode(root->point);
 }
