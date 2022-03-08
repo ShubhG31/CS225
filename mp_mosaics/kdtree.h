@@ -168,10 +168,12 @@ class KDTree
      */
     KDTree const &operator=(const KDTree<Dim>& rhs);
 
+   void copyTree(KDTreeNode*& root, KDTreeNode*& subRoot);
     /**
      * Destructor for KDTree.
      */
     ~KDTree();
+    void deleteTree(KDTreeNode *subRoot);
 
     /**
      * Finds the closest point to the parameter point in the KDTree.
@@ -232,6 +234,7 @@ class KDTree
      */
     Point<Dim> findNearestNeighbor(const Point<Dim>& query) const;
     Point<Dim> findNearestNeighbor(const Point<Dim>& query, int dim, KDTreeNode * curRoot) const;
+
     // functions used for grading:
 
     /**

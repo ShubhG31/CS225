@@ -6,7 +6,8 @@
 #include <iostream>
 #include <map>
 #include "maptiles.h"
-//#include "cs225/RGB_HSL.h"
+#include "kdtree.h"
+// #include "cs225/RGB_HSL.h"
 
 using namespace std;
 
@@ -21,7 +22,27 @@ MosaicCanvas* mapTiles(SourceImage const& theSource,
     /**
      * @todo Implement this function!
      */
+    LUVAPixel colors;
+    map<Point<3>,TileImage*> tileMap; 
+    MosaicCanvas *Art= new MosaicCanvas(theSource.getRows(),theSource.getColumns());
+    vector<Point<3>> tree;
+    for(TileImage & tileExact : theTiles){
+        // Point<3> temp=convertToXYZ(tileExact.getAverageColor());
+        tree.push_back(convertToXYZ(tileExact.getAverageColor()));
+        tileMap.insert({convertToXYZ(tileExact.getAverageColor()),&tileExact});
+    }
 
-    return NULL;
+    // vector<Point<3>> tree;
+    KDTree<3> retTree(tree);
+
+    for(int i=0; i<theSource.getRows();i++){
+        for(int j=0; j<theSource.getColumns();j++){
+            LUVAPixel temp= theSource.getRegionColor(i,j);
+            Point<3> NN= retTree.findNearestNeighbor(convertToXYZ(temp));
+            Art->setTile(i,j,tileMap[NN]);
+        }
+    }
+
+    return Art;
 }
 

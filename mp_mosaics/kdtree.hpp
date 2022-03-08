@@ -15,35 +15,15 @@ bool KDTree<Dim>::smallerDimVal(const Point<Dim> &first,
   /**
    * @todo Implement this function!
    */
-  // if (first[curDim] == second[curDim])
-  // {
-  //   if (first < second)
-  //   {
-  //     return true;
-  //   }
-  //   else
-  //   {
-  //     return false;
-  //   }
-  // }
-  // else if (first[curDim] < second[curDim])
-  // {
-  //   return true;
-  // }
-  // else if (first[curDim] > second[curDim])
-  // {
-  //   return false;
-  // }
-  // // else if(first<second)return true;
-  // return false;
     if(first[curDim]<second[curDim]){
       return true;
     }
     else if(first[curDim]>second[curDim]){
       return false;
     }
-    else if(first<second)return true;
+    if(first<second)return true;
     return false;
+
 }
 
 template <int Dim>
@@ -54,22 +34,22 @@ bool KDTree<Dim>::shouldReplace(const Point<Dim> &target,
   /**
    * @todo Implement this function!
    */
-  float potential_check = 0;
-  float currentBest_check = 0;
+  double potential_check = 0;
+  double currentBest_check = 0;
   for (int i = 0; i < Dim; i++)
   {
     potential_check += (potential[i] - target[i]) * (potential[i] - target[i]);
     currentBest_check += (currentBest[i] - target[i]) * (currentBest[i] - target[i]);
   }
-  if (potential_check == currentBest_check)
-  {
-    if (currentBest < potential)
-      return false;
+  if (potential_check<currentBest_check) {
+    return true;
+  } else if(potential_check>currentBest_check) {
+    return false;
+  } else if (potential<currentBest) {
     return true;
   }
-  if (potential_check < currentBest_check)
-    return true;
   return false;
+
 }
 
 template <int Dim>
@@ -78,7 +58,7 @@ KDTree<Dim>::KDTree(const vector<Point<Dim>> &newPoints)
   /**
    * @todo Implement this function!
    */
-
+  if(newPoints.empty())root=NULL;
   vector<Point<Dim>> points = newPoints;
   buildTree(points, 0, 0, points.size() - 1, root);
 }
@@ -89,6 +69,9 @@ KDTree<Dim>::KDTree(const KDTree<Dim> &other)
   /**
    * @todo Implement this function!
    */
+  delete(root);
+  copyTree(root,other);
+
 }
 
 template <int Dim>
@@ -97,8 +80,20 @@ const KDTree<Dim> &KDTree<Dim>::operator=(const KDTree<Dim> &rhs)
   /**
    * @todo Implement this function!
    */
-
+  if(&rhs==this)return;
+  deleteTree(root);
+  copyTree(root,rhs);
   return *this;
+}
+
+template <int Dim>
+void KDTree<Dim>::copyTree(KDTreeNode*& root, KDTreeNode*& copyRoot){
+    if(root==NULL){
+      return;
+    }
+    copyTree(root, copyRoot->left);
+    copyTree(root, copyRoot->right);
+    copyRoot= new KDTreeNode(root->point);
 }
 
 template <int Dim>
@@ -107,6 +102,15 @@ KDTree<Dim>::~KDTree()
   /**
    * @todo Implement this function!
    */
+  if(root!=NULL) deleteTree(root);
+}
+template <int Dim>
+void KDTree<Dim>::deleteTree(KDTreeNode *subRoot){
+    if(subRoot==NULL)return;
+    deleteTree(subRoot->right);
+    deleteTree(subRoot->left);
+    delete(subRoot);
+
 }
 
 template <int Dim>
@@ -123,52 +127,54 @@ template <int Dim>
 Point<Dim> KDTree<Dim>::findNearestNeighbor(const Point<Dim> &query, int dim, KDTreeNode *curRoot) const
 {
   Point<Dim> nearest = curRoot->point;
+  bool recurseLeft= false;
+  bool recurseRight=false;
   if (curRoot->right == NULL && curRoot->left == NULL){
     return curRoot->point;
   }
-  // if (curRoot->left != NULL && smallerDimVal(query, curRoot->left->point, dim))
-  if (smallerDimVal(query, curRoot->point, dim))
+  if (curRoot->left != NULL && smallerDimVal(query, curRoot->point, dim))
+  // if (smallerDimVal(query, curRoot->point, dim))
   {
-    if(curRoot->left != NULL){
+    // if(curRoot->left != NULL){
     nearest = findNearestNeighbor(query, (dim + 1) % Dim, curRoot->left);
-    }
+    recurseLeft=true;
+    // }
   }
   else{ 
     if (curRoot->right != NULL){
       nearest = findNearestNeighbor(query, (dim + 1) % Dim, curRoot->right);
+      recurseRight=true;
     }
   }
   double radius = 0;
-  if (curRoot != NULL && shouldReplace(query, nearest, curRoot->point)){
+  if (shouldReplace(query, nearest, curRoot->point)){
     nearest = curRoot->point;
   }
-  for (int i = 0; i < dim; i++){
-    radius += (curRoot->point[i] - query[i]) * (curRoot->point[i] - query[i]);
+  for (int i = 0; i < Dim; i++){
+    radius += (nearest[i] - query[i]) * (nearest[i] - query[i]);
   }
-  float splitDist = (curRoot->point[dim] - query[dim]) * (curRoot->point[dim] - query[dim]);
+  double splitDist = (curRoot->point[dim] - query[dim]) * (curRoot->point[dim] - query[dim]);
   Point<Dim> tempNearest = nearest;
   if (radius >= splitDist)
   {
-    // if (curRoot->right != NULL && smallerDimVal(query, curRoot->left->point, dim))
-    if (smallerDimVal(query, curRoot->point, dim))
-    {
-      if(curRoot->right != NULL){
+
+      if(recurseLeft && curRoot->right != NULL){
       tempNearest = findNearestNeighbor(query, (dim + 1) % Dim, curRoot->right);
       }
-    }
-    else {
-      if (curRoot->left != NULL)
+      else if (recurseRight && curRoot->left != NULL)
       {
       tempNearest = findNearestNeighbor(query, (dim + 1) % Dim, curRoot->left);
       }
-    }
-    if (shouldReplace(query, nearest, tempNearest))
+
+  }
+    if(shouldReplace(query, nearest, tempNearest))
     {
       nearest = tempNearest;
     }
-  }
   return nearest;
 }
+
+
 template <int Dim>
 void KDTree<Dim>::buildTree(vector<Point<Dim>> &points, int dim, int left, int right, KDTreeNode *&curRoot)
 {
