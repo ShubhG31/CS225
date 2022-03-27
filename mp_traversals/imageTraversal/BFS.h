@@ -35,4 +35,8 @@ public:
 private:
   /** @todo [Part 1] */
   /** add private members here*/
+  std::queue<Point> BFS_queue;
+  PNG BFS_image;
+  Point startP;
+  double Tolerance_;
 };

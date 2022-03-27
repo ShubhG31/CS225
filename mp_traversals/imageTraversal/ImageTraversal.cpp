@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iterator>
 #include <iostream>
+#include <map>
+
 
 #include "../cs225/HSLAPixel.h"
 #include "../cs225/PNG.h"
@@ -33,8 +35,25 @@ double ImageTraversal::calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2
  */
 ImageTraversal::Iterator::Iterator() {
   /** @todo [Part 1] */
+  flag=true;
+  traversalType=NULL;
 }
+ImageTraversal::Iterator::Iterator(ImageTraversal* traversalType_, Point startPoint_, PNG image_, double Tolerance_){
+  traversalType=traversalType_;
+  startPoint=startPoint_; 
+  current=startPoint;
+  image=image_;
+  Tolerance=Tolerance_;
+  visited.resize(image_.width(),std::vector<bool>(image_.height()));
 
+  for(unsigned x=0 ; x<image.width();x++){
+    for(unsigned y=0; y<image.height();y++){
+      visited[x][y]=false;
+    }
+  }
+
+
+}
 /**
  * Iterator increment opreator.
  *
@@ -42,8 +61,44 @@ ImageTraversal::Iterator::Iterator() {
  */
 ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
   /** @todo [Part 1] */
-  return *this;
+  //check queue or stack if point has been visited or not
+  flag=true;
+  Point point;
+  visited[current.x][current.y]=true;
+
+  traversalType->add(current);
+
+  if(inBounds(Point(current.x+1, current.y)) &&  Tolerance>calculateDelta(image.getPixel(startPoint.x, startPoint.y),image.getPixel(current.x+1,current.y))){
+    traversalType->add(Point(current.x+1, current.y));
+  }
+  if(inBounds(Point(current.x, current.y+1))&&  Tolerance>calculateDelta(image.getPixel(startPoint.x, startPoint.y),image.getPixel(current.x,current.y+1))){
+    traversalType->add(Point(current.x, current.y+1));
+  }
+  if(inBounds(Point(current.x-1, current.y)) && Tolerance>calculateDelta(image.getPixel(startPoint.x, startPoint.y),image.getPixel(current.x-1,current.y))){
+    traversalType->add(Point(current.x-1, current.y));
+  }
+  if(inBounds(Point(current.x, current.y-1)) && Tolerance>calculateDelta(image.getPixel(startPoint.x, startPoint.y),image.getPixel(current.x,current.y-1))){
+    traversalType->add(Point(current.x, current.y-1));
+  }
+  point=traversalType->pop();
+  while(!traversalType->empty() && visited[point.x][point.y]){
+      point=traversalType->pop();
+  }
+  
+if(!traversalType->empty()){
+  flag=false;
+  current=point;
+} 
+return *this;
+
 }
+bool ImageTraversal::Iterator::inBounds(Point point){
+  if(point.x>=image.width()|| point.y>=image.height()|| point.x<0 || point.y<0) return false;
+  return true;
+}
+// bool ImageTraversal::Iterator::checkTolerance(Point point){
+
+// }
 
 /**
  * Iterator accessor opreator.
@@ -52,7 +107,7 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
  */
 Point ImageTraversal::Iterator::operator*() {
   /** @todo [Part 1] */
-  return Point(0, 0);
+  return current;
 }
 
 /**
@@ -62,6 +117,6 @@ Point ImageTraversal::Iterator::operator*() {
  */
 bool ImageTraversal::Iterator::operator!=(const ImageTraversal::Iterator &other) {
   /** @todo [Part 1] */
-  return false;
+	return !(flag && other.flag);
 }
 

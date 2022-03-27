@@ -35,4 +35,9 @@ public:
 private:
 	/** @todo [Part 1] */
 	/** add private members here*/
+  std::stack<Point> DFS_stack;
+  PNG DFS_image;
+  Point startP;
+  double Tolerance_;
+
 };
