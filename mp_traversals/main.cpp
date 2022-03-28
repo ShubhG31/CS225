@@ -27,15 +27,15 @@ int main() {
   animation.write("myFloodFill.gif");
   */
   PNG png;
-  png.readFromFile("cloud.png");
+  png.readFromFile("logo.png");
   FloodFilledImage image(png);
-  DFS dfs(png, Point(160, 83), 0.05);
+  BFS bfs(png, Point(0, 50), 0.05);
   HSLAPixel color(231, 1, 0.5);
-  SolidColorPicker solid(color);
-  image.addFloodFill( dfs, solid);
+  // SolidColorPicker solid(color);
+  // image.addFloodFill( dfs, solid);
   MyColorPicker newColor;
   // HSLAPixel newC=newColor.getColor(0,0);
-  image.addFloodFill( dfs, newColor);
+  image.addFloodFill( bfs, newColor);
 
 
   Animation animation = image.animate(1000);
