@@ -26,6 +26,24 @@ int main() {
   lastFrame.writeToFile("myFloodFill.png");
   animation.write("myFloodFill.gif");
   */
+  PNG png;
+  png.readFromFile("cloud.png");
+  FloodFilledImage image(png);
+  DFS dfs(png, Point(160, 83), 0.05);
+  HSLAPixel color(231, 1, 0.5);
+  SolidColorPicker solid(color);
+  image.addFloodFill( dfs, solid);
+  MyColorPicker newColor;
+  // HSLAPixel newC=newColor.getColor(0,0);
+  image.addFloodFill( dfs, newColor);
+
+
+  Animation animation = image.animate(1000);
+
+
+  PNG lastFrame = animation.getFrame( animation.frameCount() - 1 );
+  lastFrame.writeToFile("myFloodFill.png");
+  animation.write("myFloodFill.gif");
 
 
   return 0;
