@@ -58,6 +58,7 @@ TEST_CASE("test_insertion_idx_small", "[weight=5][timeout=8000]") {
     REQUIRE(0 == insertion_idx(data, -1));
     REQUIRE(0 == insertion_idx(data, 1));
     REQUIRE(4 == insertion_idx(data, 99));
+    REQUIRE(2 == insertion_idx(data, 4));
 }
 
 size_t insertion_idx_time(std::vector< int >* vec) {
