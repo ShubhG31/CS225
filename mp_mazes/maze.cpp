@@ -47,36 +47,6 @@ bool SquareMaze::canTravel(int x,int y,int dir )const{
         }
     }
     return false;
-
-    // if(x>= width_ || y>= height_){
-    //     return false;
-    // }
-    // //std::cout<<x<<" "<<" "<<y<<std::endl;
-
-    // if(dir == 0){
-    //     //Checking the condition if the current location is the right-wall.
-    //     //std::cout<<x<<y<<" "<<!wall_[x][y].r<<"right"<<std::endl;
-    //     return !boundaries[x+y*(width_].first;
-
-    // }
-
-    // if(dir == 1){
-    //     //Checking the condition if the current location is the bottom wall.
-    //     //std::cout<<x<<y<<" "<<!wall_[x][y].d<<"down"<<std::endl;
-    //     return !wall_[x+y*(width_].first;
-    // }
-
-    // //This chunk of the code checks if it can travel left.
-    // if(dir == 2){
-
-    //     if(x < 1){
-    //     //std::cout<<x<<y<<" "<<"left"<<"false"<<std::endl;
-    //         return false;
-    //     }
-    //     else{
-    //     //std::cout<<x<<y<<" "<<!wall_[x][y-1].r<<"left"<<std::endl;
-    //         return !wall_[x+y*(width_].r;
-    //     }
 }
 void SquareMaze::makeMaze(int width, int height){
 
@@ -244,50 +214,7 @@ vector<int> SquareMaze::solveMaze(){
     }
 
     return solution;
-    // std::cout <<"ended" <<std::endl;
-    // int maximum = -1;
-    // int size=height_* width_;
-    // cout<<size<<endl;
-    // int i = size - width_;
-    // cout << i <<endl;
-    // cout << (i<size) <<endl;
-    // while(true){
-    //     std::cout<< "here" << ' ';
-    //     int j=i;
-    //     int c=0;
-    //     vector<int> paths;
-    //     while(parent.at(j)!=-1){
-    //         paths.push_back(direction[j]);
-    //         j=parent[j];
-    //         c++;
-    //     }
-    //     if(c>maximum){
-    //         solution=paths;
-    //         maximum=c;
-    //     }
-    //     i++;
-    // }
-    // std::reverse(solution.begin(),solution.end());
-    // return solution;
-    }
-    // int highest_length = -1;
-    // for(int i = size_ - width_; i <size_ ; i++){
-    //     int j = i;
-    //     int counter = 0;
-    //     std::vector<int> temp_path;
-    //     while(parents[j].parent != -1){
-    //         //std::cout<<parents[j].direction;
-    //         temp_path.push_back((parents[j].direction));
-    //         //std::cout<<parents[j].direction;
-    //         //Setting j to the index of the parent;
-    //         j = parents[j].parent;
-    //         counter++;
-    //     }
-    //     if(counter> highest_length){
-    //         solution_ = temp_path;
-    //         highest_length = counter;
-    //     }
-    // }
+}
 
 
 
@@ -306,7 +233,6 @@ PNG *SquareMaze::drawMaze() const{
     
     for(int x = 0; x < width_; x++){
         for(int y = 0; y < height_; y++){
-            //blacking the right wall.
             if(boundaries[x+y*(width_)].first){
                 for(int i = 0; i< 11; i++){
                     image->getPixel((x + 1)*10, y*10 + i).l = 0 ;
