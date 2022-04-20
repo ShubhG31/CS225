@@ -27,7 +27,6 @@ class SCHashTable<K, V>::SCIteratorImpl : public HashTable<K, V>::HTIteratorImpl
     virtual bool operator==(const HTIteratorImpl& other) const;
     virtual const std::pair<K, V>& operator*();
     virtual HTIteratorImpl* clone() const;
-
     /**
      * Equality operator that compares two SCIteratorImpl. Used by the
      * generic operator==() for HTIteratorImpl after a successful
@@ -69,6 +68,7 @@ class SCHashTable<K, V>::SCIteratorImpl : public HashTable<K, V>::HTIteratorImpl
      * @param ed Whether we are at the end of the SCHashTabe or not.
      */
     SCIteratorImpl(const SCHashTable& ht, size_t i, bool ed);
+
 };
 /** @endcond */
 #include "sciterator.cpp"

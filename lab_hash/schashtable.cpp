@@ -54,6 +54,10 @@ void SCHashTable<K, V>::insert(K const& key, V const& value)
      * @todo Implement this function.
      *
      */
+
+    size_t index = hashes::hash(key, value);
+    table[index].push_back(pair(key, value));
+
 }
 
 template <class K, class V>
