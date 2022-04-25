@@ -13,6 +13,8 @@
 #include "utils.h"
 #include <algorithm>
 
+#include <string>
+#include <sstream>
 /**
  * Takes a filename and reads in all the text from the file
  * Newline characters are also just characters in ASCII
@@ -41,7 +43,41 @@ std::string file_to_string(const std::string& filename){
  */
 V2D file_to_V2D(const std::string & filename){
     // Your code here!
+    // std::ifstream fin(filename,std::ifstream::in);
+    // std::string file_string = file_to_string(filename);
+    // V2D CSV_vector;
+    // Trim(file_string);
+    // while(file_string){
+    //   SplitString(file_string,',',CSV_vector);
+    //   std::cout<<line<<std::endl;
+    // }
+    //  V2D sc;
+    // return sc;
+    std::string file_string = file_to_string(filename);
+    V2D parsed;
+    file_string = Trim(file_string);
+    std::vector<std::string> lines;
+    std::vector<std::string> word;
 
+    //size contains the number of lines in the CSV file
+    // lines is a vector contains each line from the CSV file 
+    int size= SplitString(file_string, '\n',lines);
+    //for loop to traverse the number of lines 
+    for(int i=0; i<size;i++){
+      //words contains the number of words are in the line 
+      //word is a vector that contains all the words from line
+      int words = SplitString(lines[i],',',word);
+      std::vector<std::string> parsed2;
+        for(int j= 0; j<words; j++){
+          word[j] = Trim(word[j]);
+          std::cout<<word[j]<<std::endl;
+          parsed2.push_back(word[j]);
+        }
+        parsed.push_back(parsed2);
+        word.clear();
+
+    }
+    return parsed;
 }
 
 /**
@@ -56,7 +92,19 @@ V2D file_to_V2D(const std::string & filename){
  */
 V2D clean(V2D & cv, V2D & student){
     // YOUR CODE HERE
+  V2D clean_schedule; 
 
+  // for(int i =0 ; i< cv.size(); i++){
+  //   std::string course = cv[i][0];
+  //   for(int j = 0; j <student.size(); j++ ){
+  //     std::string student_name = student[j][0]
+  //     for(int k =0; k < cv.size();k++){
+
+  //     }
+  //   }
+  // }
+   V2D sc;
+    return sc;
 }
 
 /**
@@ -77,5 +125,6 @@ V2D clean(V2D & cv, V2D & student){
  */
 V2D schedule(V2D courses, std::vector<std::string> timeslots){
     // Your code here!
-
+    V2D sc;
+    return sc;
 }

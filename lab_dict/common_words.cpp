@@ -48,12 +48,24 @@ void CommonWords::init_file_word_maps(const vector<string>& filenames)
         // file
         vector<string> words = file_to_vector(filenames[i]);
         /* Your code goes here! */
+        for (auto word: words) {
+            file_word_maps[i][word]++;
+        }
     }
 }
 
 void CommonWords::init_common()
 {
     /* Your code goes here! */
+    for (auto cur_map: file_word_maps) {
+        for (auto cur_elem: cur_map) {
+            map<string, unsigned int>::iterator help = common.find(cur_elem.first);
+            if (help != common.end())
+                common[cur_elem.first] += 1;
+            else 
+                common[cur_elem.first] = 1;
+        }
+    }
 }
 
 /**
@@ -65,6 +77,20 @@ vector<string> CommonWords::get_common_words(unsigned int n) const
 {
     vector<string> out;
     /* Your code goes here! */
+     for (auto & elem: common) {
+        if (elem.second == file_word_maps.size()) {
+            bool should_add = true;
+            for (auto & cur_map: file_word_maps) {
+                if (cur_map.at(elem.first) < n) {
+                    should_add = false;
+                    break;
+                }   
+            }
+            if (should_add) {
+                out.push_back(elem.first);
+            }
+        }
+    }
     return out;
 }
 
