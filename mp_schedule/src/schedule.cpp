@@ -70,7 +70,7 @@ V2D file_to_V2D(const std::string & filename){
       std::vector<std::string> parsed2;
         for(int j= 0; j<words; j++){
           word[j] = Trim(word[j]);
-          std::cout<<word[j]<<std::endl;
+          // std::cout<<word[j]<<std::endl;
           parsed2.push_back(word[j]);
         }
         parsed.push_back(parsed2);
@@ -94,17 +94,35 @@ V2D clean(V2D & cv, V2D & student){
     // YOUR CODE HERE
   V2D clean_schedule; 
 
-  // for(int i =0 ; i< cv.size(); i++){
-  //   std::string course = cv[i][0];
-  //   for(int j = 0; j <student.size(); j++ ){
-  //     std::string student_name = student[j][0]
-  //     for(int k =0; k < cv.size();k++){
-
-  //     }
-  //   }
-  // }
-   V2D sc;
-    return sc;
+  for(unsigned long i=0; i < cv.size();i++){
+    std::vector<std::string> temp;
+    temp.push_back(cv[i][0]);
+    for(unsigned long l=1 ; l< cv[i].size();l++){
+      for(unsigned long j=0; j<student.size();j++){
+        if(cv[i][l]==student[j][0]){
+          for(unsigned long m=1; m<student[j].size();m++){
+            if(cv[i][0]==student[j][m]){
+              temp.push_back(student[j][0]);
+            }
+          }
+        }
+        // auto lookup = std::find(temp.begin(), temp.end(),student[j][0]);
+        // auto student_lookup = std::find(student[j].begin(), student[j].end(),cv[i][0]);
+        // for(unsigned long k=0; k<){
+        //   auto student_check = std::find(student[j][0].begin(), student[j].end(),)
+        // }
+        // if(lookup!=temp.end() && student_lookup==student[j].end()){
+        //   // if(std::find(temp.begin(),temp.end(),cv[i][0])==temp.end()) {
+        //   //   temp.push_back(cv[i][0]);
+        //   //   std::cout<<cv[i][0]<<" ";
+        //   //   }
+        //   temp.erase(lookup);
+        }
+    }
+    if(temp.size()>1) clean_schedule.push_back(temp);
+    temp.clear();
+    }
+  return clean_schedule;
 }
 
 /**
