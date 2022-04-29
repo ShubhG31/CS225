@@ -125,6 +125,8 @@ V2D clean(V2D & cv, V2D & student){
   return clean_schedule;
 }
 
+
+
 /**
  * Given a collection of courses and a list of available times, create a valid scheduling (if possible).
  * 
