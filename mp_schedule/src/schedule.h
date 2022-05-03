@@ -15,7 +15,7 @@
 
 typedef std::map<std::string, std::vector<std::string> > sMap;
 typedef std::vector<std::vector<std::string> > V2D; 
-
+typedef std::vector<std::vector<bool>> V2B;
 /**
  * Given a filename to a CSV-formatted text file, create a 2D vector of strings where each row
  * in the text file is a row in the V2D and each comma-separated value is stripped of whitespace
@@ -36,7 +36,8 @@ V2D file_to_V2D(const std::string & filename);
  * @param student A 2D vector of strings where each row is a student ID followed by the courses they are taking
  */
 V2D clean(V2D & cv, V2D & sv);
-
+std::vector<std::vector<bool >> adjacency(V2D courses);
+bool color_possible(int colors, V2B adjacency_matrix, std::vector<int>& times,int curr);
 /**
  * Given a collection of courses and a list of available times, create a valid scheduling (if possible).
  * 
