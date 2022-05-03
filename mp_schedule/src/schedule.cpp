@@ -155,7 +155,7 @@ V2D schedule(V2D courses, std::vector<std::string> timeslots){
     sMap adjacency_map;
     V2B adjacency_matrix = adjacency(courses);
     
-    //std::set<long, > uncolored;
+    // std::set<long, > uncolored;
     for(unsigned long i = 0; i<adjacency_matrix.size();i++){
       adjacency_map[courses[i][0]]=vector<string>();
       for(unsigned long j =0; j<adjacency_matrix.size();j++){ 
@@ -165,6 +165,14 @@ V2D schedule(V2D courses, std::vector<std::string> timeslots){
       }
       // uncolored[courses[i][0]] = -1* ((long) adjacency_map[courses[i][0]].size());
     }
+    // for(unsigned int i=0;i<courses.size();i++){
+    //   for(unsigned int j=1; j<courses[i].size();i++){
+    //       if(find(courses[j].begin(),courses[j].end(),courses[i][j])!=courses[j].end()){
+    //         adjacency_map[courses[i][0]].push_back(courses[j][0]);
+    //         adjacency_map[courses[j][0]].push_back(courses[i][0]);
+    //       }
+    //   }
+    // }
     // string maxAdjIn = (*uncolored.begin()->first);
     // colored[maxAdjIn]=0;
     for (unsigned long start = 0; start < courses.size();++start){
@@ -232,9 +240,13 @@ V2B adjacency(V2D courses){
   for(int l=0; l<node;l++){
     for(int k=l+1; k<node;k++){
       std::vector<std::string> temp;
-      std::sort(courses[l].begin(),courses[l].end());
-      std::sort(courses[k].begin(),courses[k].end());
-      std::set_intersection(courses[l].begin(),courses[l].end(),courses[k].begin(),courses[k].end(),std::back_inserter(temp));
+      for(unsigned int p=0;p<courses[l].size();p++){
+        for(unsigned int o=0;o<courses[k].size();o++){
+          if(courses[l][p]==courses[k][o]){
+            temp.push_back(courses[k][o]);
+          }
+        }
+      }
       temp.size()>0 ? matrix[l][k]=true:matrix[l][k]=false;
       temp.size()>0 ? matrix[k][l]=true:matrix[k][l]=false;
     }
